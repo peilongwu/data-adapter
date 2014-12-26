@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import org.gbros.utils.StringKit;
 import org.gbros.utils.excel.MergedRegion;
 
 /**
@@ -81,7 +82,7 @@ public class ExcelObjectUtils {
 	public static JSONArray toJSONArray(String excelName, String sheetName)throws Exception{
 		ExcelObject excel = toExcelObject(excelName);
 		for(SheetObject sheet : excel.getRowset()){
-			if("sheetName".equals(sheet.getName())){
+			if(sheetName.equals(sheet.getName())){
 				return (JSONArray)JSON.toJSON(sheet.getRow());
 			}
 		}
@@ -183,7 +184,7 @@ public class ExcelObjectUtils {
 								value = cell.getStringCellValue();
 								break;
 							case Cell.CELL_TYPE_NUMERIC: // 数字
-								value = cell.getNumericCellValue();
+								value = StringKit.doubleToObject(cell.getNumericCellValue());
 								break;
 							case Cell.CELL_TYPE_BOOLEAN: // Boolean
 								value = cell.getBooleanCellValue();

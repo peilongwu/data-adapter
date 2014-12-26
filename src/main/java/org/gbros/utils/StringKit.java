@@ -171,6 +171,29 @@ public class StringKit {
 			return "0";
 		}
 	}
+	
+	/**
+	 * double转换double，保留非零小数
+	 * @param value
+	 * @return
+	 */
+	public static Object doubleToObject(Double value){
+		if (value == null)
+			return 0;
+		try {
+			String tmpValue = String.valueOf(value);
+			String subValue = tmpValue.substring(tmpValue.indexOf(".") + 1,tmpValue.length());
+			if(StringKit.isNotBlank(subValue)){
+				Double tmpDouble = Double.parseDouble("0." + subValue);
+				if(tmpDouble == 0){
+					return Integer.parseInt(tmpValue.substring(0, tmpValue.indexOf(".")));
+				}
+			}
+			return value;
+		} catch (RuntimeException e) {
+			return 0;
+		}
+	}
 
 	/**
 	 * 将金额转换为万元
@@ -487,12 +510,12 @@ public class StringKit {
 	}
 	
 	public static void main(String args[]){
-		String str = "AUTO_AuTh";
+		/*String str = "AUTO_AuTh";
 		System.out.println(toCamelString(str));
 		String str1 = "autoAuthThis";
 		System.out.println(camelToTbFieldString(str1,false));
-		System.out.println(camelToTbFieldString(str1,true));
+		System.out.println(camelToTbFieldString(str1,true));*/
 		
-		System.out.println(doubleToString(125.000001));
+		System.out.println(doubleToObject(125.000001));
 	}
 }

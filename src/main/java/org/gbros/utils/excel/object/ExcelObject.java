@@ -9,30 +9,30 @@ import java.util.List;
  */
 public class ExcelObject {
 
-	private String Name;
-	private List<SheetObject> Rowset;
+	private String name;
+	private List<SheetObject> rowset;
 
 	public ExcelObject() {
 	}
 
-	public ExcelObject(String Name, List<SheetObject> Rowset) {
-		this.Name = Name;
-		this.Rowset = Rowset;
+	public ExcelObject(String name, List<SheetObject> rowset) {
+		this.name = name;
+		this.rowset = rowset;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public List<SheetObject> getRowset() {
-		return Rowset;
+		return rowset;
 	}
 
 	public void setRowset(List<SheetObject> rowset) {
-		Rowset = rowset;
+		this.rowset = rowset;
 	}
 }
