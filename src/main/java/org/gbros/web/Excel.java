@@ -32,28 +32,20 @@ public class Excel {
     	}
     }
     
-    /*@GET
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{sheet}")
-    public String get(@PathParam("sheet") final String sheetName, @QueryParam("name")final String excelName, 
-    		@QueryParam("col") final Object col,@QueryParam("value") final Object value) {
+    public String get(@PathParam("sheet") final String sheetName, @QueryParam("name")final String excelName) {
     	try{
 	    	System.out.println("excel name is" + excelName);
 	    	System.out.println("sheet name is" + sheetName);
 	    	Map<String,Object> filter = new HashMap<String,Object>();
-	    	/*if(col != null){
-		    	for(int i=0; i<col.length; i++){
-		    		if(value != null && value.length > i){
-		    			filter.put(col[i], value[i]);
-		    		}
-		    	}
-	    	}
 	    	return excelReader.getList(excelName, sheetName, filter).toJSONString();
     	}catch(Exception e){
     		e.printStackTrace();
     		return null;
     	}
-    } */
+    } 
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
