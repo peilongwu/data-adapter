@@ -1,38 +1,37 @@
 package org.gbros.utils.excel.simple;
 
 import java.util.List;
+
 /**
- * 简单Excel对象，只包括名称和sheet数据
- * 
- * @author Peilw
- * 
+ * 简单Excel对象，只包括名称和sheet数据.
+ * @author peilongwu
  */
 public class ExcelSimple {
 
-	private String name;
-	private List<SheetSimple> sheets;
+  private String name;
+  private List<SheetSimple> sheets;
 
-	public ExcelSimple() {
-	}
+  public ExcelSimple() {
+  }
 
-	public ExcelSimple(String name, List<SheetSimple> sheets) {
-		this.name = name;
-		this.sheets = sheets;
-	}
+  public ExcelSimple(String name, List<SheetSimple> sheets) {
+    this.name = name;
+    this.sheets = sheets;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public List<SheetSimple> getSheets() {
-		return sheets;
-	}
+  public List<SheetSimple> getSheets() {
+    return sheets;
+  }
 
-	public void setSheets(List<SheetSimple> sheets) {
-		this.sheets = sheets;
-	}
+  public void setSheets(List<SheetSimple> sheets) {
+    this.sheets = sheets;
+  }
 }

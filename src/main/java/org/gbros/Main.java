@@ -12,34 +12,39 @@ import java.net.URI;
  *
  */
 public class Main {
-    // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://localhost:8090/myapp/";
+  // Base URI the Grizzly HTTP server will listen on
+  public static final String BASE_URI = "http://localhost:8090/myapp/";
 
-    /**
-     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
-     * @return Grizzly HTTP server.
-     */
-    public static HttpServer startServer() {
-        // create a resource config that scans for JAX-RS resources and providers
-        final ResourceConfig rc = new ResourceConfig().packages("org.gbros.web");
+  /**
+   * Starts Grizzly HTTP server exposing JAX-RS resources defined in this
+   * application.
+   * 
+   * @return Grizzly HTTP server.
+   */
+  public static HttpServer startServer() {
+    // create a resource config that scans for JAX-RS resources and providers
+    final ResourceConfig rc = new ResourceConfig().packages("org.gbros.web");
 
-        // create and start a new instance of grizzly http server
-        // exposing the Jersey application at BASE_URI
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
-    }
+    // create and start a new instance of grizzly http server
+    // exposing the Jersey application at BASE_URI
+    return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
+  }
 
-    /**
-     * Main method.
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-        final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        System.out.println(server.getHttpHandler());
-        System.in.read();
-        server.shutdown();
-    }
+  /**
+   * Main method.
+   * 
+   * @param args
+   * @throws IOException
+   */
+  public static void main(String[] args) throws IOException {
+    final HttpServer server = startServer();
+    Initialize.initDataSource();
+    Initialize.initQueryStatement();
+    System.out.println(String.format(
+        "Jersey app started with WADL available at "
+            + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
+    System.out.println(server.getHttpHandler());
+    System.in.read();
+    server.shutdown();
+  }
 }
-
