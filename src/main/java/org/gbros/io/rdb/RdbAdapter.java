@@ -93,7 +93,7 @@ public class RdbAdapter extends AbstractAdapter{
   @Override
   public List<Map<String, Object>> findByStatementName(String statementName,
       List<Param> params) throws IoException {
-    String sqlString = IoConfig.getStatement(statementName);
+    String sqlString = IoConfig.getStatement(statementName).getStatement();
     return this.findByStatement(sqlString, params);
   }
 

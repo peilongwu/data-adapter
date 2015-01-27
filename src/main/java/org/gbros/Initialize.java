@@ -3,11 +3,15 @@ package org.gbros;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import org.gbros.io.IoConfig;
+import org.gbros.io.Statement;
 import org.gbros.utils.PathKit;
+import org.gbros.utils.StringKit;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -46,8 +50,21 @@ public class Initialize {
       props = new Properties();
       props.load(inStream);
       Set<Object> keys = props.keySet();
+      List<String> keyPrefixList = new ArrayList<String>();
       for (Object key : keys) {
-        IoConfig.putStatement(key.toString(), props.getProperty(key.toString()));
+        String tempKey = key.toString();
+        String[] strs = tempKey.split("\\.");
+        if (strs != null && strs.length > 0) {
+          if (StringKit.isNotBlank(strs[0]) && !keyPrefixList.contains(strs[0])) {
+            keyPrefixList.add(strs[0]);
+          }
+        }
+      }
+      for (String prefix : keyPrefixList) {
+        String statement = props.getProperty(prefix + "." + "statement");
+        String dataSourceName = props.getProperty(prefix + "." + "datasource");
+        Statement stms = new Statement(statement, dataSourceName);
+        IoConfig.putStatement(prefix, stms);
       }
     } catch (Exception e) {
       e.printStackTrace();

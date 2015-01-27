@@ -14,6 +14,7 @@ public class Query {
    * @param dataSourceType
    */
   public Query(String dataSourceType, String dataSourceName) {
+    
     switch (dataSourceType) {
       case "rdb": {
         adapter = new RdbAdapter(dataSourceType, dataSourceName);

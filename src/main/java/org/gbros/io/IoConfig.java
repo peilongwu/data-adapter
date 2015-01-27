@@ -6,7 +6,7 @@ import java.util.Map;
 public class IoConfig{
   
   private static Map<String,Object> dataSourceMap = new HashMap<String,Object>();
-  private static Map<String,String> statementMap = new HashMap<String,String>();
+  private static Map<String,Statement> statementMap = new HashMap<String,Statement>();
   
   public static void putDataSource(String name, Object dataSource) {
     dataSourceMap.put(name, dataSource);
@@ -16,11 +16,11 @@ public class IoConfig{
     return dataSourceMap.get(name);
   }
   
-  public static void putStatement(String name, String statement) {
+  public static void putStatement(String name, Statement statement) {
     statementMap.put(name, statement);
   }
   
-  public static String getStatement(String name) {
+  public static Statement getStatement(String name) {
     return statementMap.get(name);
   }
   

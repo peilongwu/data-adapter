@@ -2,29 +2,29 @@ package org.gbros.utils.excel.object;
 
 public class Column {
 
-	private String name;
-	private String type;
-	
-	public Column(){
-	}
-	
-	public Column(String name, String type){
-	}
+  private String name;
+  private String type;
 
-	public String getName() {
-		return name;
-	}
+  public Column() {
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public Column(String name, String type) {
+  }
 
-	public String getType() {
-		return type;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
 
 }
