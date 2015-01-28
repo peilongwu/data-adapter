@@ -2,8 +2,8 @@ package org.gbros.io.rdb;
 
 import org.gbros.io.AbstractAdapter;
 import org.gbros.io.Criteria;
-import org.gbros.io.IoConfig;
 import org.gbros.io.Param;
+import org.gbros.io.Source;
 import org.gbros.io.exception.IoException;
 
 import java.sql.Connection;
@@ -29,12 +29,11 @@ public class RdbAdapter extends AbstractAdapter{
    * @param dataSourceType
    * @param dataSourceName
    */
-  public RdbAdapter(String dataSourceType, String dataSourceName) {
-    super(dataSourceType, dataSourceName);
-    Object tempDataSource = IoConfig.getDataSource(dataSourceName);
-    System.out.println(tempDataSource.getClass().getName());
+  public RdbAdapter(Source source) {
+    super(source);
+    Object tempDataSource = source.getSource();
     try {
-      dataSource = (DataSource)IoConfig.getDataSource(dataSourceName);
+      dataSource = (DataSource)tempDataSource;
     } catch (Exception e) {
       throw new IoException("initialize data source error : can't convert object to data source");
     }
@@ -55,7 +54,15 @@ public class RdbAdapter extends AbstractAdapter{
   @Override
   public List<Map<String, Object>> findCollection(String collectionName,
       List<Criteria> criterias, List<String> cols) throws IoException {
-    return null;
+    String sql = SqlUtils.getSql(collectionName, criterias, cols);
+    try {
+      PreparedStatement statement = conn.prepareStatement(sql);
+      ResultSet rs = statement.executeQuery();
+      return getResults(rs);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new IoException("excute sql error: " + e.getMessage());
+    }
   }
 
   @Override
@@ -89,12 +96,4 @@ public class RdbAdapter extends AbstractAdapter{
     }
     return list;
   }
-
-  @Override
-  public List<Map<String, Object>> findByStatementName(String statementName,
-      List<Param> params) throws IoException {
-    String sqlString = IoConfig.getStatement(statementName).getStatement();
-    return this.findByStatement(sqlString, params);
-  }
-
 }

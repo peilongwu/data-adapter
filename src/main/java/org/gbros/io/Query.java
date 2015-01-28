@@ -1,5 +1,6 @@
 package org.gbros.io;
 
+import org.gbros.io.file.excel.ExcelAdapter;
 import org.gbros.io.rdb.RdbAdapter;
 
 import java.util.List;
@@ -8,19 +9,26 @@ import java.util.Map;
 public class Query {
   
   private Adapter adapter;
-
+  private QuerySchema querySchema;
+  
   /**
    * 初始化Query.
-   * @param dataSourceType
+   * @param name name is statement's name or collection's name 
    */
-  public Query(String dataSourceType, String dataSourceName) {
-    
-    switch (dataSourceType) {
+  public Query(String name) {
+    querySchema = IoConfig.getQuerySchema(name);
+    Source source = IoConfig.getSource(querySchema.getSource());
+    this.init(source);
+  }
+  
+  private void init(Source source) {
+    switch (source.getType()) {
       case "rdb": {
-        adapter = new RdbAdapter(dataSourceType, dataSourceName);
+        adapter = new RdbAdapter(source);
         break;
       }
-      case "file": {
+      case "excel": {
+        adapter = new ExcelAdapter(source);
         break;
       }
       case "nosql": {
@@ -32,29 +40,20 @@ public class Query {
     }
   }
   
-  public void init(){
-    
-  }
-  
   public Map<String,Object> getObject(String collectionName, List<Criteria> criterias) {
     return adapter.findObject(collectionName, criterias);
   }
   
-  public List<Map<String,Object>> getCollection(String collectionName, List<Criteria> criterias, 
-      List<String> cols) {
-    return adapter.findCollection(collectionName, criterias, cols);
+  public List<Map<String,Object>> getCollection(List<Criteria> criterias, List<String> cols) {
+    return adapter.findCollection(querySchema.getContent(), criterias, cols);
+  }
+  
+  public List<Map<String,Object>> getCollection(List<Param> params) {
+    return adapter.findByStatement(querySchema.getContent(), params);
   }
   
   public Map<String,Object> getObjectById(String collectionName, String objectId, String idName) {
     return null;
-  }
-  
-  public List<Map<String,Object>> getByStatement(String statement, List<Param> params) {
-    return adapter.findByStatement(statement, params);
-  }
-  
-  public List<Map<String,Object>> getByStatementName(String statementName, List<Param> params) {
-    return adapter.findByStatementName(statementName, params);
   }
   
 }

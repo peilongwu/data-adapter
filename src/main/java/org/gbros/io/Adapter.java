@@ -35,13 +35,5 @@ public interface Adapter {
    */
   public List<Map<String,Object>> findByStatement(String statement, List<Param> params) 
       throws IoException;
-  
-  /**
-   * find collection by statementname.
-   * @param statementName
-   * @param params
-   * @throws IOException
-   */
-  public List<Map<String,Object>> findByStatementName(String statementName, List<Param> params) 
-      throws IoException;
+ 
 }

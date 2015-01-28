@@ -61,6 +61,25 @@ public class ExcelObjectUtils {
       return toExcelObject(inputStream, fileName);
     }
   }
+  
+  /**
+   * get sheet data.
+   * @param fileName
+   * @param sheetName
+   * @return
+   * @throws Exception
+   */
+  public static List<Map<String,Object>> getSheetData(String fileName, String sheetName) 
+      throws Exception {
+    ExcelObject excel = toExcelObject(fileName);
+    List<SheetObject> sheets = excel.getRowset();
+    for (SheetObject sheet : sheets) {
+      if (sheetName.equals(sheet.getName())) {
+        return sheet.getRow();
+      }
+    }
+    return null;
+  }
 
   /**
    * to excel object.

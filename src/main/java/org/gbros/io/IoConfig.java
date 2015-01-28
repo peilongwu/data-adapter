@@ -5,23 +5,28 @@ import java.util.Map;
 
 public class IoConfig{
   
-  private static Map<String,Object> dataSourceMap = new HashMap<String,Object>();
-  private static Map<String,Statement> statementMap = new HashMap<String,Statement>();
+  public static final String SOURCE_TYPE_SUFFIX = ".type";
+  public static final String QUERY_TYPE_SUFFIX = ".type";
+  public static final String QUERY_SOURCE_SUFFIX = ".source";
+  public static final String QUERY_CONTENT_SUFFIX = ".content";
   
-  public static void putDataSource(String name, Object dataSource) {
-    dataSourceMap.put(name, dataSource);
+  private static Map<String,Source> source = new HashMap<String,Source>();
+  private static Map<String,QuerySchema> querySchema = new HashMap<String,QuerySchema>();
+  
+  public static void putSource(String name, Source src) {
+    source.put(name, src);
   }
   
-  public static Object getDataSource(String name) {
-    return dataSourceMap.get(name);
+  public static Source getSource(String name) {
+    return source.get(name);
   }
   
-  public static void putStatement(String name, Statement statement) {
-    statementMap.put(name, statement);
+  public static void putQuerySchema(String name, QuerySchema statement) {
+    querySchema.put(name, statement);
   }
   
-  public static Statement getStatement(String name) {
-    return statementMap.get(name);
+  public static QuerySchema getQuerySchema(String name) {
+    return querySchema.get(name);
   }
   
 }
