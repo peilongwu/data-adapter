@@ -1,5 +1,6 @@
 package org.gbros.io;
 
+import org.gbros.io.exception.IoException;
 import org.gbros.io.file.excel.ExcelAdapter;
 import org.gbros.io.rdb.RdbAdapter;
 
@@ -13,11 +14,20 @@ public class Query {
 
   /**
    * 初始化Query.
-   * 
    * @param name name is statement's name or collection's name
    */
   public Query(String name) {
     querySchema = IoConfig.getQuerySchema(name);
+    Source source = IoConfig.getSource(querySchema.getSource());
+    this.init(source);
+  }
+  
+  /**
+   * 初始化Query.
+   * @param querySchema
+   */
+  public Query(QuerySchema querySchema) {
+    this.querySchema = querySchema;
     Source source = IoConfig.getSource(querySchema.getSource());
     this.init(source);
   }
@@ -42,7 +52,7 @@ public class Query {
   }
 
   public Map<String, Object> getObject(String collectionName,
-      List<Criteria> criterias) {
+      List<Criteria> criterias) throws IoException {
     return adapter.findObject(collectionName, criterias);
   }
 
@@ -54,16 +64,11 @@ public class Query {
    * @return
    */
   public List<Map<String, Object>> getCollection(List<Criteria> criterias,
-      List<String> cols) {
-    try {
-      return adapter.findCollection(querySchema.getContent(), criterias, cols);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
+      List<String> cols) throws IoException {
+    return adapter.findCollection(querySchema.getContent(), criterias, cols);
   }
 
-  public List<Map<String, Object>> getCollection(List<Param> params) {
+  public List<Map<String, Object>> getCollection(List<Param> params) throws IoException {
     return adapter.findByStatement(querySchema.getContent(), params);
   }
 
