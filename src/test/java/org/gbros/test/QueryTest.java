@@ -2,7 +2,7 @@ package org.gbros.test;
 
 import org.gbros.Initialize;
 import org.gbros.io.Param;
-import org.gbros.io.Query;
+import org.gbros.io.DefaultQuery;
 
 import java.util.ArrayList;
 import java.util.List;

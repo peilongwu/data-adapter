@@ -7,6 +7,8 @@ public interface QueryFactory {
    * @param name
    * @return
    */
-  public abstract Query openQuery(String name);
+  public Query openQuery(String name);
+  
+  public Configuration getConfiguration();
 
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 
 import org.gbros.io.Query;
 import org.gbros.io.QueryFactory;
+import org.gbros.io.QueryFactoryBuilder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,8 @@ import javax.ws.rs.core.UriInfo;
 @Path("query")
 public class QueryController {
   
-  private QueryFactory queryFactory;
+  private QueryFactoryBuilder builder = new QueryFactoryBuilder();
+  private QueryFactory queryFactory = builder.build();
 
   /**
    * get data by statement's name.

@@ -21,7 +21,17 @@ public class Initialize {
   private static Properties props = new Properties();
   private static String baseDir = PathKit.getWebRootPath();
   
-  protected final Configuration configuration = new Configuration();
+  private final Configuration configuration = new Configuration();
+  
+  /**
+   * init.
+   * @return
+   */
+  public Configuration init() {
+    this.initQuerySchema();
+    this.initSource();
+    return configuration;
+  }
 
   /**
    * init data source.

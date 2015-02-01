@@ -21,6 +21,10 @@ public class Configuration{
     return source.get(name);
   }
   
+  public Map<String, Source> getSource() {
+    return source;
+  }
+  
   public void putQuerySchema(String name, QuerySchema statement) {
     querySchema.put(name, statement);
   }
@@ -29,4 +33,16 @@ public class Configuration{
     return querySchema.get(name);
   }
   
+  public Map<String, QuerySchema> getQuerySchema() {
+    return querySchema;
+  }
+
+  public void setSource(Map<String, Source> source) {
+    this.source = source;
+  }
+
+  public void setQuerySchema(Map<String, QuerySchema> querySchema) {
+    this.querySchema = querySchema;
+  }
+
 }
