@@ -81,24 +81,7 @@ public class ExcelObjectUtils {
     return null;
   }
 
-  /**
-   * to excel object.
-   * @function 处理excel文件流，生成ExcelObject对象
-   * @param inputStream 文件流
-   * @param fileName 文件名称
-   */
-  public static ExcelObject toExcelObject(InputStream inputStream,
-      String fileName) throws Exception {
-    Workbook wbs = null;
-    if (fileName.contains("xlsx")) {
-      wbs = new XSSFWorkbook(inputStream);
-    } else if (fileName.contains("xls")) {
-      wbs = new HSSFWorkbook(inputStream);
-    } else {
-      throw new RuntimeException("Excel file type wrong! ");
-    }
-    return toExcelObject(wbs, fileName);
-  }
+
 
   public static JSONArray toJSONArray(String excelName, String sheetName)
       throws Exception {
@@ -148,6 +131,24 @@ public class ExcelObjectUtils {
   private static JSONObject toJSONObject(Workbook wbs, String fileName)
       throws Exception {
     return (JSONObject) JSON.toJSON(toExcelObject(wbs, fileName));
+  }
+  
+  /**
+   * to excel object.
+   * @function 处理excel文件流，生成ExcelObject对象
+   * @param inputStream 文件流
+   * @param fileName 文件名称
+   */
+  public static ExcelObject toExcelObject(InputStream inputStream, String fileName) throws Exception {
+    Workbook wbs = null;
+    if (fileName.contains("xlsx")) {
+      wbs = new XSSFWorkbook(inputStream);
+    } else if (fileName.contains("xls")) {
+      wbs = new HSSFWorkbook(inputStream);
+    } else {
+      throw new RuntimeException("Excel file type wrong! ");
+    }
+    return toExcelObject(wbs, fileName);
   }
 
   /**

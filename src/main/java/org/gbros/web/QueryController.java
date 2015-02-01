@@ -1,6 +1,8 @@
 package org.gbros.web;
 
 import com.alibaba.fastjson.JSON;
+
+import org.gbros.io.Query;
 import org.gbros.io.QueryFactory;
 
 import java.util.HashMap;
@@ -36,7 +38,7 @@ public class QueryController {
       @Context UriInfo ui) {
     try {
       System.out.println("current query is : " + name);
-      queryFactory = new QueryFactory(name);
+      Query query = queryFactory.openQuery(name);
       MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
       Map<String,List<String>> paramMap = new HashMap<String,List<String>>();
       if (queryParams != null) {
@@ -44,7 +46,7 @@ public class QueryController {
           paramMap.put(entry.getKey(), entry.getValue());
         }
       }
-      List<Map<String,Object>> list = queryFactory.getCollection(paramMap);
+      List<Map<String,Object>> list = query.getCollection(paramMap);
       System.out.println(list.size());
       return JSON.toJSONString(list);
     } catch (Exception e) {

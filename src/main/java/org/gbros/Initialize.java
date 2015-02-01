@@ -2,7 +2,7 @@ package org.gbros;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
-import org.gbros.io.IoConfig;
+import org.gbros.io.Configuration;
 import org.gbros.io.QuerySchema;
 import org.gbros.io.Source;
 import org.gbros.utils.PathKit;
@@ -20,11 +20,13 @@ public class Initialize {
   
   private static Properties props = new Properties();
   private static String baseDir = PathKit.getWebRootPath();
+  
+  protected final Configuration configuration = new Configuration();
 
   /**
    * init data source.
    */
-  public static void initSource() {
+  public void initSource() {
     try {
       System.out.println(baseDir);
       File file = new File(baseDir + "\\src\\main\\resource\\datasource.properties");
@@ -42,13 +44,13 @@ public class Initialize {
             dataSource.setUsername(props.getProperty(keyPrefix + ".username"));
             dataSource.setPassword(props.getProperty(keyPrefix + ".password"));
             Source source = new Source(keyPrefix, type, dataSource);
-            IoConfig.putSource(keyPrefix, source);
+            configuration.putSource(keyPrefix, source);
             break;
           }
           case "excel" : {
             String excelName = props.getProperty(keyPrefix + ".url");
             Source source = new Source(keyPrefix, type, excelName);
-            IoConfig.putSource(keyPrefix, source);
+            configuration.putSource(keyPrefix, source);
             break;
           }
           default: {
@@ -64,7 +66,7 @@ public class Initialize {
   /**
    * init query properties.
    */
-  public static void initQuerySchema() {
+  public void initQuerySchema() {
     try {
       File file = new File(baseDir + "\\src\\main\\resource\\query.properties");
       InputStream inStream = new FileInputStream(file);
@@ -77,7 +79,7 @@ public class Initialize {
         String content = props.getProperty(prefix + "." + "content");
         String source = props.getProperty(prefix + "." + "source");
         QuerySchema stms = new QuerySchema(type, content, source);
-        IoConfig.putQuerySchema(prefix, stms);
+        configuration.putQuerySchema(prefix, stms);
       }
     } catch (Exception e) {
       e.printStackTrace();

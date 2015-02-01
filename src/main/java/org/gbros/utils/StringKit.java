@@ -6,12 +6,13 @@ import java.util.List;
 public class StringKit {
   
   public static String toString(Object obj) {
-
-    // System.out.println("obj:"+obj);
     return obj == null || obj.toString().trim().toUpperCase().equals("NULL") ? ""
         : obj.toString();
   }
 
+  /**
+   * toString.
+   */
   public static String toString(Object obj, boolean istrim) {
     if (istrim) {
       return obj == null || obj.toString().trim().toUpperCase().equals("NULL") ? ""
@@ -26,13 +27,23 @@ public class StringKit {
     return ((str == null) || (str.length() == 0));
   }
 
+  /**
+   * judge string is empty or not.
+   * @param str
+   * @return
+   */
   public static boolean isNotEmpty(String str) {
     if (str != null) {
       str = str.trim();
     }
     return (!(isEmpty(str)));
   }
-
+  
+  /**
+   * judge string is blank or not.
+   * @param str
+   * @return
+   */
   public static boolean isBlank(String str) {
     int strLen;
     if ((str == null) || ((strLen = str.length()) == 0)) {
@@ -46,6 +57,11 @@ public class StringKit {
     return true;
   }
 
+  /**
+   * judge string is not empty.
+   * @param str
+   * @return
+   */
   public static boolean isNotBlank(String str) {
     return (!(isBlank(str)));
   }
@@ -55,8 +71,7 @@ public class StringKit {
   }
 
   /**
-   * 0,1字符转布尔型
-   * 
+   * 0,1字符转布尔型.
    * @param value
    * @return boolean
    */
@@ -101,27 +116,34 @@ public class StringKit {
       return 0d;
     }
     try {
-      double d = Double.parseDouble(obj.toString().trim());
-      if (d == 0.0 || d == -0.0 || (d < 1E-9 && d > -1E-9)) {
+      double doubleValue = Double.parseDouble(obj.toString().trim());
+      if (doubleValue == 0.0 || doubleValue == -0.0 
+          || (doubleValue < 1E-9 && doubleValue > -1E-9)) {
         return 0d;
       }
-      return d;
+      return doubleValue;
     } catch (NumberFormatException e) {
       return 0d;
     }
   }
 
+  /**
+   * Object转double.
+   * @param obj
+   * @return double
+   */
   public static double convertToDouble2(Object obj) {
     if (obj == null) {
       return 0d;
     }
     try {
-      double d = Double.parseDouble(obj.toString().trim());
-      if (d == 0.0 || d == -0.0 || (d < 1E-9 && d > -1E-9)) {
+      double doubleValue = Double.parseDouble(obj.toString().trim());
+      if (doubleValue == 0.0 || doubleValue == -0.0 
+          || (doubleValue < 1E-9 && doubleValue > -1E-9)) {
         return 0d;
       }
       DecimalFormat df = new DecimalFormat("#.00");
-      String temp = df.format(d);
+      String temp = df.format(doubleValue);
       double result = Double.parseDouble(temp);
       return result;
     } catch (NumberFormatException e) {
@@ -139,12 +161,13 @@ public class StringKit {
       return "0";
     }
     try {
-      double d = Double.parseDouble(obj.toString().trim());
-      if (d == 0.0 || d == -0.0 || (d < 1E-9 && d > -1E-9)) {
+      double doubleValue = Double.parseDouble(obj.toString().trim());
+      if (doubleValue == 0.0 || doubleValue == -0.0 
+          || (doubleValue < 1E-9 && doubleValue > -1E-9)) {
         return "0";
       }
       DecimalFormat df = new DecimalFormat("0.00");
-      String result = df.format(d);
+      String result = df.format(doubleValue);
       return result;
     } catch (RuntimeException e) {
       return "0";
@@ -152,7 +175,7 @@ public class StringKit {
   }
 
   /**
-   * double转换为字符串，保留非零小数.
+   * double转换为字符串保留非零小数.
    * @param value
    * @return
    */
@@ -180,7 +203,7 @@ public class StringKit {
   }
 
   /**
-   * double转换double，保留非零小数.
+   * double转换double保留非零小数.
    * @param value
    * @return
    */
@@ -214,18 +237,24 @@ public class StringKit {
       return "0";
     }
     try {
-      double d = Double.parseDouble(obj.toString().trim()) / 10000;
-      if (d == 0.0 || d == -0.0 || (d < 1E-9 && d > -1E-9)) {
+      double doubleValue = Double.parseDouble(obj.toString().trim()) / 10000;
+      if (doubleValue == 0.0 || doubleValue == -0.0 
+          || (doubleValue < 1E-9 && doubleValue > -1E-9)) {
         return "0";
       }
       DecimalFormat df = new DecimalFormat("0.00");
-      String result = df.format(d);
+      String result = df.format(doubleValue);
       return result;
     } catch (RuntimeException e) {
       return "0";
     }
   }
 
+  /**
+   * object to boolean.
+   * @param obj
+   * @return
+   */
   public static boolean convertToBoolean(Object obj) {
     if (obj == null) {
       return false;
@@ -412,50 +441,6 @@ public class StringKit {
     return sb.toString();
   }
 
-  // /**
-  // * 将list,object[]转化为要求类型的数组
-  // *
-  // * @param list
-  // * @param classType
-  // * @return
-  // */
-  // public static Object[] convertObjectToArray(Object obj, Class<?> classType)
-  // {
-  // if (obj == null)
-  // return new Object[] { null };
-  // if (obj instanceof List) {
-  // List list = (List) obj;
-  // if (list.size() == 0)
-  // return new Object[] { null };
-  // Object[] arr = new Object[list.size()];
-  // for (int i = 0; i < arr.length; i++) {
-  // arr[i] = ConvertUtils.convert(list.get(i), classType);
-  // }
-  // return arr;
-  // }
-  // if (obj instanceof Object[]) {
-  // Object[] arr = (Object[]) obj;
-  // if (arr.length == 0)
-  // return new Object[] { null };
-  // Object[] result = new Object[arr.length];
-  // for (int i = 0; i < arr.length; i++) {
-  // result[i] = ConvertUtils.convert(arr[i], classType);
-  // }
-  // return result;
-  // }
-  // if (obj instanceof String) {
-  // Object[] arr = ((String) obj).split(",");
-  // if (arr.length == 0)
-  // return new Object[] { null };
-  // Object[] result = new Object[arr.length];
-  // for (int i = 0; i < arr.length; i++) {
-  // result[i] = ConvertUtils.convert(arr[i], classType);
-  // }
-  // return result;
-  // }
-  // return null;
-  // }
-
   /**
    * 从json字符串查找值.
    * @param jsonStr
@@ -464,15 +449,15 @@ public class StringKit {
    */
   public static String queryJson(String json, String name) {
     json = json.replaceAll("[{}]", "");
-    int b = json.indexOf(name);
-    if (b == -1) {
+    int intValue = json.indexOf(name);
+    if (intValue == -1) {
       return "";
     }
-    int e = json.indexOf(",", b);
-    if (e == -1) {
-      e = json.length();
+    int jsonValue = json.indexOf(",", intValue);
+    if (jsonValue == -1) {
+      jsonValue = json.length();
     }
-    return json.substring(json.indexOf(":", b) + 1, e);
+    return json.substring(json.indexOf(":", intValue) + 1, jsonValue);
   }
 
   /**
