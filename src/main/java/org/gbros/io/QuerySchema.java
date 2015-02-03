@@ -1,10 +1,13 @@
 package org.gbros.io;
 
+import java.util.Map;
+
 public class QuerySchema {
 
   private String type; // statement or collection
   private String content;
   private String source;
+  private Map<String,Object> defaultParam;
 
   /**
    * constructor.
@@ -42,4 +45,12 @@ public class QuerySchema {
     this.source = source;
   }
 
+  public Map<String, Object> getDefaultParam() {
+    return defaultParam;
+  }
+
+  public void setDefaultParam(Map<String, Object> defaultParam) {
+    this.defaultParam = defaultParam;
+  }
+  
 }

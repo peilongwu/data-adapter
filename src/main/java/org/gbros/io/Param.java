@@ -6,7 +6,7 @@ public class Param {
 
   private String name;
   private String value;
-  private String defaultValue = "";
+  private String defaultValue;
   
   public Param(){
   }

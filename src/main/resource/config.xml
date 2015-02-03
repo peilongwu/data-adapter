@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <settings>
+        <setting name="" value=""/>
+    </settings>
+    <sources>
+        <source resource="datasource.properties" name=""/>
+    </sources>
+    <querys>
+        <query resource="query.xml"/>
+    </querys>
+</configuration>
