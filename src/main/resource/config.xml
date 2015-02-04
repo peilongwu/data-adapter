@@ -7,6 +7,6 @@
         <source resource="datasource.properties" name=""/>
     </sources>
     <querys>
-        <query resource="query.xml"/>
+        <query resource="../query/user_query.xml"/>
     </querys>
 </configuration>

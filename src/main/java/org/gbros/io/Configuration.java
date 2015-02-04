@@ -10,8 +10,8 @@ public class Configuration{
   public static final String QUERY_SOURCE_SUFFIX = ".source";
   public static final String QUERY_CONTENT_SUFFIX = ".content";
   
-  private Map<String,Source> source = new HashMap<String,Source>();
-  private Map<String,QuerySchema> querySchema = new HashMap<String,QuerySchema>();
+  protected final Map<String,Source> source = new HashMap<String,Source>();
+  protected final Map<String,QuerySchema> querySchema = new HashMap<String,QuerySchema>();
   
   public void putSource(String name, Source src) {
     source.put(name, src);
@@ -35,14 +35,6 @@ public class Configuration{
   
   public Map<String, QuerySchema> getQuerySchema() {
     return querySchema;
-  }
-
-  public void setSource(Map<String, Source> source) {
-    this.source = source;
-  }
-
-  public void setQuerySchema(Map<String, QuerySchema> querySchema) {
-    this.querySchema = querySchema;
   }
 
 }

@@ -1,6 +1,5 @@
 package org.gbros.io;
 
-import org.gbros.io.exception.IoException;
 import org.gbros.io.file.excel.ExcelAdapter;
 import org.gbros.io.rdb.RdbAdapter;
 import org.gbros.utils.StringKit;

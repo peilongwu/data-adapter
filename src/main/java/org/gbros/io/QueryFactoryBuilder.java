@@ -1,8 +1,8 @@
 package org.gbros.io;
 
 import org.gbros.Initialize;
-import org.gbros.io.exception.ErrorContext;
-import org.gbros.io.exception.ExceptionFactory;
+import org.gbros.exceptions.ErrorContext;
+import org.gbros.exceptions.ExceptionFactory;
 
 import java.io.InputStream;
 import java.io.Reader;
