@@ -2,6 +2,7 @@ package org.gbros.web;
 
 import com.alibaba.fastjson.JSON;
 
+import org.gbros.config.Config;
 import org.gbros.io.Query;
 import org.gbros.io.QueryFactory;
 import org.gbros.io.QueryFactoryBuilder;
@@ -25,7 +26,7 @@ import javax.ws.rs.core.UriInfo;
 public class QueryController {
   
   private QueryFactoryBuilder builder = new QueryFactoryBuilder();
-  private QueryFactory queryFactory = builder.build();
+  private QueryFactory queryFactory = builder.build(Config.configuration);
 
   /**
    * get data by statement's name.

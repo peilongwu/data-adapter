@@ -1,13 +1,18 @@
 package org.gbros.io;
 
-import java.util.Map;
+import java.util.List;
 
 public class QuerySchema {
 
+  private String name;
   private String type; // statement or collection
   private String content;
   private String source;
-  private Map<String,Object> defaultParam;
+  private List<Param> params;
+  
+  public QuerySchema(){
+    
+  }
 
   /**
    * constructor.
@@ -15,10 +20,19 @@ public class QuerySchema {
    * @param name
    * @param source
    */
-  public QuerySchema(String type, String content, String source) {
+  public QuerySchema(String name, String type, String content, String source) {
+    this.name = name;
     this.type = type;
     this.content = content;
     this.source = source;
+  }
+  
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getType() {
@@ -45,12 +59,12 @@ public class QuerySchema {
     this.source = source;
   }
 
-  public Map<String, Object> getDefaultParam() {
-    return defaultParam;
+  public List<Param> getParams() {
+    return params;
   }
 
-  public void setDefaultParam(Map<String, Object> defaultParam) {
-    this.defaultParam = defaultParam;
+  public void setParams(List<Param> params) {
+    this.params = params;
   }
   
 }

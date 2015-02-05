@@ -1,10 +1,14 @@
 package org.gbros;
 
+import org.gbros.builder.Resources;
+import org.gbros.builder.xml.XmlConfigBuilder;
+import org.gbros.config.Config;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 
 /**
@@ -38,8 +42,13 @@ public class Main {
    */
   public static void main(String[] args) throws IOException {
     final HttpServer server = startServer();
-    //Initialize.initSource();
-    //Initialize.initQuerySchema();
+    try {
+      InputStream inStream = Resources.getResourceAsStream("config.xml");
+      XmlConfigBuilder configBuilder = new XmlConfigBuilder(inStream);
+      Config.configuration = configBuilder.parse();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     System.out.println(String.format(
         "Jersey app started with WADL available at "
             + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));

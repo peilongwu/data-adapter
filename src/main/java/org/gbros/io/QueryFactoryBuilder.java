@@ -1,6 +1,8 @@
 package org.gbros.io;
 
 import org.gbros.Initialize;
+import org.gbros.builder.Resources;
+import org.gbros.builder.xml.XmlConfigBuilder;
 import org.gbros.exceptions.ErrorContext;
 import org.gbros.exceptions.ExceptionFactory;
 
@@ -38,8 +40,9 @@ public class QueryFactoryBuilder {
   public QueryFactory build(Reader reader, String environment,
       Properties properties) {
     try {
-      Initialize initialize = new Initialize();
-      Configuration configuration = initialize.init();
+      InputStream inStream = Resources.getResourceAsStream("config.xml");
+      XmlConfigBuilder configBuilder = new XmlConfigBuilder(inStream);
+      Configuration configuration = configBuilder.parse();
       return build(configuration);
     } catch (Exception e) {
       throw ExceptionFactory.wrapException("Error building SqlSession.", e);

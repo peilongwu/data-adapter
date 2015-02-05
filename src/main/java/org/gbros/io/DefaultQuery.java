@@ -22,11 +22,8 @@ public class DefaultQuery implements Query {
   public DefaultQuery(Configuration configuration, String name) {
     this.configuration = configuration;
     this.querySchema = configuration.getQuerySchema(name);
-    System.out.println(name);
-    for (Map.Entry<String, Source> entry : configuration.getSource().entrySet()) {
-      System.out.println(entry.getKey());
-      System.out.println(entry.getValue());
-    }
+    System.out.println(querySchema.getName());
+    System.out.println(querySchema.getContent());
     Source source = configuration.getSource(querySchema.getSource());
     this.init(source);
   }
@@ -93,9 +90,8 @@ public class DefaultQuery implements Query {
   }
   
   private List<Param> getParams(Map<String, List<String>> paramMap) {
-    List<Param> params = null;
+    List<Param> params = new ArrayList<Param>();
     if (paramMap != null) {
-      params = new ArrayList<Param>();
       for (Entry<String,List<String>> entry : paramMap.entrySet()) {
         if (StringKit.isNotBlank(entry.getKey())) {
           String key = entry.getKey();
@@ -108,6 +104,19 @@ public class DefaultQuery implements Query {
           params.add(new Param(key, value));
         }
       }
+    }
+    if (paramMap != null) {
+      for (Param param : querySchema.getParams()) {
+        if (!paramMap.containsKey(param.getName())) {
+          params.add(param);
+        }
+      }
+    } else {
+      params.addAll(querySchema.getParams());
+    }
+    for (Param param : params) {
+      System.out.println(param.getName());
+      System.out.println(param.getValue());
     }
     return params;
   }

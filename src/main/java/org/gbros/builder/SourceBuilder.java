@@ -1,54 +1,50 @@
-package org.gbros;
+package org.gbros.builder;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
 import org.gbros.io.Configuration;
-import org.gbros.io.QuerySchema;
 import org.gbros.io.Source;
-import org.gbros.utils.PathKit;
 import org.gbros.utils.StringKit;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-public class Initialize {
-  
-  private static Properties props = new Properties();
-  private static String baseDir = PathKit.getWebRootPath();
-  
-  private final Configuration configuration = new Configuration();
-  
+public class SourceBuilder {
+
+  private Properties props;
+  private Configuration configuration;
+
   /**
-   * init.
-   * @return
+   * SourceBuilder conductor.
+   * 
+   * @param inStream
+   * @param configuration
    */
-  public Configuration init() {
-    this.initQuerySchema();
-    this.initSource();
-    return configuration;
+  public SourceBuilder(InputStream inStream, Configuration configuration) {
+    try {
+      this.props = new Properties();
+      props.load(inStream);
+      this.configuration = configuration;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /**
-   * init data source.
+   * parse Source.
+   * @param props
    */
-  public void initSource() {
+  public void parse() {
     try {
-      System.out.println(baseDir);
-      File file = new File(baseDir + "\\src\\main\\resource\\datasource.properties");
-      InputStream inStream = new FileInputStream(file);
-      props = new Properties();
-      props.load(inStream);
       Set<Object> keys = props.keySet();
       List<String> keyPrefixList = getPrefixList(keys);
       for (String keyPrefix : keyPrefixList) {
         String type = props.getProperty(keyPrefix + ".type");
         switch (type) {
-          case "rdb" : {
+          case "rdb": {
             DruidDataSource dataSource = new DruidDataSource();
             dataSource.setUrl(props.getProperty(keyPrefix + ".url"));
             dataSource.setUsername(props.getProperty(keyPrefix + ".username"));
@@ -57,7 +53,7 @@ public class Initialize {
             configuration.putSource(keyPrefix, source);
             break;
           }
-          case "excel" : {
+          case "excel": {
             String excelName = props.getProperty(keyPrefix + ".url");
             Source source = new Source(keyPrefix, type, excelName);
             configuration.putSource(keyPrefix, source);
@@ -72,30 +68,7 @@ public class Initialize {
       e.printStackTrace();
     }
   }
-  
-  /**
-   * init query properties.
-   */
-  public void initQuerySchema() {
-    try {
-      File file = new File(baseDir + "\\src\\main\\resource\\query.properties");
-      InputStream inStream = new FileInputStream(file);
-      props = new Properties();
-      props.load(inStream);
-      Set<Object> keys = props.keySet();
-      List<String> keyPrefixList = getPrefixList(keys);
-      for (String prefix : keyPrefixList) {
-        String type = props.getProperty(prefix + "." + "type");
-        String content = props.getProperty(prefix + "." + "content");
-        String source = props.getProperty(prefix + "." + "source");
-        QuerySchema stms = new QuerySchema(prefix, type, content, source);
-        configuration.putQuerySchema(prefix, stms);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-  
+
   private static List<String> getPrefixList(Set<Object> keys) {
     List<String> keyPrefixList = new ArrayList<String>();
     for (Object key : keys) {
@@ -109,5 +82,4 @@ public class Initialize {
     }
     return keyPrefixList;
   }
-  
 }

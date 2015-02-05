@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <name>gbe_app</name>
+    <type>collection</type>
+    <source>mysql</source>
+    <content>gbe_app</content>
+</query>

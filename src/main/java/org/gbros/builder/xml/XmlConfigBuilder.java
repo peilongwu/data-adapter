@@ -1,10 +1,13 @@
 package org.gbros.builder.xml;
 
 import org.gbros.builder.BuilderException;
+import org.gbros.builder.Resources;
+import org.gbros.builder.SourceBuilder;
 import org.gbros.io.Configuration;
+import org.gbros.io.QuerySchema;
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.InputStream;
@@ -13,6 +16,7 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 public class XmlConfigBuilder {
@@ -37,27 +41,23 @@ public class XmlConfigBuilder {
   public Configuration parse() {
     configuration = new Configuration();
     Node root = document.getFirstChild();
-    NodeList nodeList = root.getChildNodes();
-    parseSources(nodeList,configuration);
-    parseQuery(nodeList,configuration);
+    parseSources(root,configuration);
+    parseQuery(root,configuration);
     return configuration;
   }
   
-  private void parseQuery(NodeList nodeList, Configuration configuration) {
-    Node querysNode = null;
+  private void parseQuery(Node root, Configuration configuration) {
     try {
-      for (int i = 0; i < nodeList.getLength(); i++) {
-        if ("querys".equals(nodeList.item(i).getNodeName())) {
-          querysNode = nodeList.item(i);
-          break;
-        }
-      }
-      if (querysNode != null) {
-        NodeList queryList = querysNode.getChildNodes();
-        for (int i = 0; i < queryList.getLength(); i++) {
-         // NamedNodeMap query = queryList.item(i).getNodeValue();
-          System.out.println(queryList.item(i).toString());
-          System.out.println("111:::" + xpath.evaluate("resource", queryList.item(i)));
+      Node querysNode = (Node) xpath.evaluate("querys", root, XPathConstants.NODE);
+      for (int i = 0; i < querysNode.getChildNodes().getLength(); i++ ) {
+        Node node = querysNode.getChildNodes().item(i);
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+          NamedNodeMap map = node.getAttributes();
+          String resource = map.getNamedItem("resource").getNodeValue();
+          InputStream inputStream = Resources.getResourceAsStream(resource);
+          XmlQuerySchemaBuilder queryScemaBuilder = new XmlQuerySchemaBuilder(inputStream);
+          QuerySchema querySchema = queryScemaBuilder.parse();
+          configuration.putQuerySchema(querySchema.getName(), querySchema);
         }
       }
     } catch (Exception e) {
@@ -65,8 +65,22 @@ public class XmlConfigBuilder {
     }
   }
 
-  private void parseSources(NodeList nodeList, Configuration configuration2) {
-    
+  private void parseSources(Node root, Configuration configuration2) {
+    try {
+      Node querysNode = (Node) xpath.evaluate("sources", root, XPathConstants.NODE);
+      for (int i = 0; i < querysNode.getChildNodes().getLength(); i++ ) {
+        Node node = querysNode.getChildNodes().item(i);
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+          NamedNodeMap map = node.getAttributes();
+          String resource = map.getNamedItem("resource").getNodeValue();
+          InputStream inputStream = Resources.getResourceAsStream(resource);
+          SourceBuilder builder = new SourceBuilder(inputStream, configuration);
+          builder.parse();
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   private Document createDocument(InputSource inputSource) {

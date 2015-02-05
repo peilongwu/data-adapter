@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <name>org_query</name>
+    <type>statement</type>
+    <source>mysql</source>
+    <content>
+        select * from gbe_org where 1=1 ${param}
+    </content>
+    <params>
+        <param>
+            <name>param</name>
+            <value></value>
+        </param>
+    </params>
+</query>
