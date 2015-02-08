@@ -4,7 +4,6 @@ import org.gbros.io.Param;
 import org.gbros.io.QuerySchema;
 import org.gbros.parse.XNode;
 import org.gbros.parse.XPathParser;
-import org.gbros.utils.StringKit;
 
 import java.io.InputStream;
 import java.util.ArrayList;
