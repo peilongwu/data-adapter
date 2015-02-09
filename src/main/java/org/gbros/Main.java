@@ -48,8 +48,7 @@ public class Main {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    System.out.println(String.format(
-        "Jersey app started with WADL available at "
+    System.out.println(String.format("Jersey app started with WADL available at " 
             + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
     System.out.println(server.getHttpHandler());
     System.in.read();
