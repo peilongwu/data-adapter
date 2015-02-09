@@ -10,5 +10,9 @@
         <query resource="./query/user_query.xml"/>
         <query resource="./query/org_query.xml"/>
         <query resource="./query/app_query.xml"/>
+        <query resource="./query/pipe_query.xml"/>
+        <query resource="./query/valve_query.xml"/>
+        <query resource="./query/test_query.xml"/>
+        <query resource="./query/equ_query.xml"/>
     </querys>
 </configuration>

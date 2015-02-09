@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <name>valve_query</name>
+    <type>collection</type>
+    <source>excel</source>
+    <content>阀组</content>
+</query>

@@ -1,10 +1,16 @@
 package org.gbros.builder;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.mongodb.Mongo;
+import com.mongodb.MongoOptions;
 
 import org.gbros.io.Configuration;
 import org.gbros.io.Source;
 import org.gbros.utils.StringKit;
+import org.springframework.data.authentication.UserCredentials;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -56,6 +62,31 @@ public class SourceBuilder {
           case "excel": {
             String excelName = props.getProperty(keyPrefix + ".url");
             Source source = new Source(keyPrefix, type, excelName);
+            configuration.putSource(keyPrefix, source);
+            break;
+          }
+          case "mongodb": {
+            MongoOptions options = new MongoOptions();
+            options.connectionsPerHost = Integer.parseInt(props.getProperty(keyPrefix + ".port"));
+            options.threadsAllowedToBlockForConnectionMultiplier =  
+                Integer.parseInt(props.getProperty(keyPrefix + ".port"));
+            options.connectTimeout = Integer.parseInt(props.getProperty(keyPrefix + ".port"));
+            options.maxWaitTime = Integer.parseInt(props.getProperty(keyPrefix + ".max_wait_time"));
+            options.autoConnectRetry = 
+                Boolean.parseBoolean(props.getProperty(keyPrefix + ".auto_connect"));
+            options.socketKeepAlive = 
+                Boolean.parseBoolean(props.getProperty(keyPrefix + ".socket_keep_alive"));
+            options.socketTimeout = 
+                Integer.parseInt(props.getProperty(keyPrefix + ".socket_timeout"));
+            options.fsync = Boolean.parseBoolean(props.getProperty(keyPrefix + ".write-fsync"));
+            String host = props.getProperty(keyPrefix + ".host");
+            Mongo mongo = new Mongo(host, options);
+            UserCredentials credentials = 
+                new UserCredentials(props.getProperty(keyPrefix + ".username"),props.getProperty(keyPrefix + ".password"));
+            SimpleMongoDbFactory mongoDbFactory = 
+                new SimpleMongoDbFactory(mongo, props.getProperty(keyPrefix + ".dbname"),credentials);
+            MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
+            Source source = new Source(keyPrefix, type, mongoTemplate);
             configuration.putSource(keyPrefix, source);
             break;
           }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <name>test_query</name>
+    <type>statement</type>
+    <source>excel2</source>
+    <content>业务室</content>
+</query>

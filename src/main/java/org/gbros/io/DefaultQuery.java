@@ -1,6 +1,7 @@
 package org.gbros.io;
 
 import org.gbros.io.file.excel.ExcelAdapter;
+import org.gbros.io.nosql.mongodb.MongodbAdapter;
 import org.gbros.io.rdb.RdbAdapter;
 import org.gbros.utils.StringKit;
 
@@ -22,8 +23,6 @@ public class DefaultQuery implements Query {
   public DefaultQuery(Configuration configuration, String name) {
     this.configuration = configuration;
     this.querySchema = configuration.getQuerySchema(name);
-    System.out.println(querySchema.getName());
-    System.out.println(querySchema.getContent());
     Source source = configuration.getSource(querySchema.getSource());
     this.init(source);
   }
@@ -38,7 +37,8 @@ public class DefaultQuery implements Query {
         adapter = new ExcelAdapter(source);
         break;
       }
-      case "nosql": {
+      case "mongodb": {
+        adapter = new MongodbAdapter(source);
         break;
       }
       default: {
@@ -105,14 +105,16 @@ public class DefaultQuery implements Query {
         }
       }
     }
-    if (paramMap != null) {
-      for (Param param : querySchema.getParams()) {
-        if (!paramMap.containsKey(param.getName())) {
-          params.add(param);
+    if (querySchema.getParams() != null) {
+      if (paramMap != null) {
+        for (Param param : querySchema.getParams()) {
+          if (!paramMap.containsKey(param.getName())) {
+            params.add(param);
+          }
         }
+      } else {
+        params.addAll(querySchema.getParams());
       }
-    } else {
-      params.addAll(querySchema.getParams());
     }
     for (Param param : params) {
       System.out.println(param.getName());

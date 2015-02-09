@@ -34,10 +34,10 @@ public class XmlQuerySchemaBuilder {
     XNode contentNode = context.evalNode("content");
     XNode sourceNode = context.evalNode("source");
     
-    querySchema.setName(nameNode != null ? nameNode.getStringBody() : "");
-    querySchema.setType(typeNode != null ? typeNode.getStringBody() : "");
-    querySchema.setContent(contentNode != null ? contentNode.getStringBody() : "");
-    querySchema.setSource(sourceNode != null ? sourceNode.getStringBody() : "");
+    querySchema.setName(nameNode != null ? nameNode.getStringBody().trim() : "");
+    querySchema.setType(typeNode != null ? typeNode.getStringBody().trim() : "");
+    querySchema.setContent(contentNode != null ? contentNode.getStringBody().trim() : "");
+    querySchema.setSource(sourceNode != null ? sourceNode.getStringBody().trim() : "");
     
     List<Param> params = new ArrayList<Param>();
     XNode paramsNode = context.evalNode("params");

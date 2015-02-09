@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+    <name>pipe_query</name>
+    <type>statement</type>
+    <source>excel</source>
+    <content>管道</content>
+</query>
