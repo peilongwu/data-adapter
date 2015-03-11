@@ -82,7 +82,9 @@ public class Resources {
    */
   public static URL getResourceURL(ClassLoader loader, String resource) throws IOException {
     URL url = classLoaderWrapper.getResourceAsURL(resource, loader);
-    if (url == null) throw new IOException("Could not find resource " + resource);
+    if (url == null) {
+      throw new IOException("Could not find resource " + resource);
+    }
     return url;
   }
 
@@ -97,28 +99,30 @@ public class Resources {
     return getResourceAsStream(null, resource);
   }
 
-  /*
-   * Returns a resource on the classpath as a Stream object
-   *
+  /**
+   * Returns a resource on the classpath as a Stream object.
    * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
    */
-  public static InputStream getResourceAsStream(ClassLoader loader, String resource) throws IOException {
+  public static InputStream getResourceAsStream(ClassLoader loader, String resource) 
+      throws IOException {
     InputStream in = classLoaderWrapper.getResourceAsStream(resource, loader);
-    if (in == null) throw new IOException("Could not find resource " + resource);
+    if (in == null) {
+      throw new IOException("Could not find resource " + resource);
+    }
     return in;
   }
 
-  /*
-   * Returns a resource on the classpath as a Properties object
-   *
+  /**
+   * Returns a resource on the classpath as a Properties object.
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
    */
-  public static Properties getResourceAsProperties(String resource) throws IOException {
+  public static Properties getResourceAsProperties(String resource) 
+      throws IOException {
     Properties props = new Properties();
     InputStream in = getResourceAsStream(resource);
     props.load(in);
@@ -126,15 +130,15 @@ public class Resources {
     return props;
   }
 
-  /*
-   * Returns a resource on the classpath as a Properties object
-   *
+  /**
+   * Returns a resource on the classpath as a Properties object.
    * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
    */
-  public static Properties getResourceAsProperties(ClassLoader loader, String resource) throws IOException {
+  public static Properties getResourceAsProperties(ClassLoader loader, String resource) 
+      throws IOException {
     Properties props = new Properties();
     InputStream in = getResourceAsStream(loader, resource);
     props.load(in);

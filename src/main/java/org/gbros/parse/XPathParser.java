@@ -110,22 +110,26 @@ public class XPathParser {
     this.document = document;
   }
 
-  public XPathParser(String xml, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public XPathParser(String xml, boolean validation, Properties variables, 
+      EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(new StringReader(xml)));
   }
 
-  public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public XPathParser(Reader reader, boolean validation, Properties variables, 
+      EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(reader));
   }
 
-  public XPathParser(InputStream inputStream, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public XPathParser(InputStream inputStream, boolean validation, Properties variables, 
+      EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(inputStream));
   }
 
-  public XPathParser(Document document, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public XPathParser(Document document, boolean validation, Properties variables, 
+      EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = document;
   }
@@ -138,6 +142,12 @@ public class XPathParser {
     return evalString(document, expression);
   }
 
+  /**
+   * eval string.
+   * @param root
+   * @param expression
+   * @return
+   */
   public String evalString(Object root, String expression) {
     String result = (String) evaluate(expression, root, XPathConstants.STRING);
     result = PropertyParser.parse(result, variables);

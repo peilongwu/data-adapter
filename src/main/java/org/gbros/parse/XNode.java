@@ -366,7 +366,9 @@ public class XNode {
       for (int i = 0; i < children.getLength(); i++) {
         Node child = children.item(i);
         data = getBodyData(child);
-        if (data != null) break;
+        if (data != null) {
+          break;
+        }
       }
     }
     return data;

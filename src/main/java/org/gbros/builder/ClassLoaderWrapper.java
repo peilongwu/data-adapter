@@ -115,10 +115,15 @@ public class ClassLoaderWrapper {
         // try to find the resource as passed
         InputStream returnValue = cl.getResourceAsStream(resource);
 
-        // now, some class loaders want this leading "/", so we'll add it and try again if we didn't find the resource
-        if (null == returnValue) returnValue = cl.getResourceAsStream("/" + resource);
+        // now, some class loaders want this leading "/", so we'll add it and try again 
+        // if we didn't find the resource
+        if (null == returnValue) {
+          returnValue = cl.getResourceAsStream("/" + resource);
+        }
 
-        if (null != returnValue) return returnValue;
+        if (null != returnValue) {
+          return returnValue;
+        }
       }
     }
     return null;
@@ -144,11 +149,15 @@ public class ClassLoaderWrapper {
 
         // ...but some class loaders want this leading "/", so we'll add it
         // and try again if we didn't find the resource
-        if (null == url) url = cl.getResource("/" + resource);
+        if (null == url) {
+          url = cl.getResource("/" + resource);
+        }
 
         // "It's always in the last place I look for it!"
         // ... because only an idiot would keep looking for it after finding it, so stop looking already.
-        if (null != url) return url;
+        if (null != url) {
+          return url;
+        }
 
       }
 
@@ -168,17 +177,13 @@ public class ClassLoaderWrapper {
    * @throws ClassNotFoundException - Remember the wisdom of Judge Smails: Well, the world needs ditch diggers, too.
    */
   Class<?> classForName(String name, ClassLoader[] classLoader) throws ClassNotFoundException {
-
     for (ClassLoader cl : classLoader) {
-
       if (null != cl) {
-
         try {
-
           Class<?> c = Class.forName(name, true, cl);
-
-          if (null != c) return c;
-
+          if (null != c) {
+            return c;
+          }
         } catch (ClassNotFoundException e) {
           // we'll ignore this until all classloaders fail to locate the class
         }

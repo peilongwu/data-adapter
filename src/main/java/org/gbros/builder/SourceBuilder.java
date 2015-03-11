@@ -8,7 +8,6 @@ import org.gbros.io.Configuration;
 import org.gbros.io.Source;
 import org.gbros.utils.StringKit;
 import org.springframework.data.authentication.UserCredentials;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
@@ -82,9 +81,11 @@ public class SourceBuilder {
             String host = props.getProperty(keyPrefix + ".host");
             Mongo mongo = new Mongo(host, options);
             UserCredentials credentials = 
-                new UserCredentials(props.getProperty(keyPrefix + ".username"),props.getProperty(keyPrefix + ".password"));
+                new UserCredentials(props.getProperty(keyPrefix + ".username"),
+                    props.getProperty(keyPrefix + ".password"));
             SimpleMongoDbFactory mongoDbFactory = 
-                new SimpleMongoDbFactory(mongo, props.getProperty(keyPrefix + ".dbname"),credentials);
+                new SimpleMongoDbFactory(mongo, props.getProperty(keyPrefix 
+                    + ".dbname"),credentials);
             MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
             Source source = new Source(keyPrefix, type, mongoTemplate);
             configuration.putSource(keyPrefix, source);
